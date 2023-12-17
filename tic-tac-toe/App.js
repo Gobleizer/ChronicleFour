@@ -3,13 +3,14 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useReducer } from 'react';
 
 import make2DArray from './make2DArray';
+import Board from './Board';
 
 function reducer(state, action) {
   return state;
 };
 
 function makeInitialState() {
-  return { board: make2DArray(3,3,null) };
+  return { board: make2DArray(3,3,'X') };
 }
 
 export default function App() {
@@ -17,8 +18,9 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text>{JSON.stringify(state, null, 2)}</Text>
       <StatusBar style="auto" />
+      <Text></Text>
+      <Board board={state.board}/>
     </View>
   );
 }
