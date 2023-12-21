@@ -7,7 +7,7 @@ export default function Board(props) {
     return (
         <View style={styles.container}>
             {
-                props.board.map((row, index) => <Row key={index+'row'} row={row} />)
+                props.board.map((row, index) => <Row key={index} row={row} rowIndex={index} dispatch={props.dispatch} />)
             }
         </View>
     )
