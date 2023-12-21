@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import { useReducer } from 'react';
 
 import make2DArray from './make2DArray';
@@ -22,28 +22,33 @@ function reducer(state, action) {
     case 'player-move': {
       if (isValidMove(state.board, action.rowIndex, action.colIndex)) {
         const newBoard = copyBoard(state.board);
-        newBoard[action.rowIndex][action.colIndex] = state.currentPlayer;
-        const nextPlayer = state.currentPlayer === 'X' ? 'O' : 'X';
-        return {...state, board: newBoard, currentPlayer: nextPlayer};
+        newBoard[action.rowIndex][action.colIndex] = state.moveCount % 2 === 0 ? 'X' : 'O';
+        return {...state, board: newBoard, moveCount: state.moveCount + 1 };
       }
       return state;
+    }
+    case 'reset-game': {
+      return makeInitialState();
     }
   }
   return state;
 };
 
 function makeInitialState() {
-  return { currentPlayer: 'X', board: make2DArray(3,3,null) };
+  return { board: make2DArray(3,3,null), moveCount: 0 };
 }
 
-export default function App() {
+export default function App() {  //Array Destructuring
   const [state, dispatch] = useReducer(reducer, undefined, makeInitialState);
-
+  
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <Text></Text>
       <Board board={state.board} dispatch={dispatch}/>
+      {
+        state.moveCount === 9 ? <Button title='Reset Game' onPress={() => dispatch({type: 'reset-game'})}></Button> : null
+      }
     </View>
   );
 }

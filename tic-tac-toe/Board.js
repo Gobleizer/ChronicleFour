@@ -2,12 +2,12 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import Row from './Row';
 
-export default function Board(props) {
-    
+export default function Board({ board, dispatch }) {
+     
     return (
         <View style={styles.container}>
             {
-                props.board.map((row, index) => <Row key={index} row={row} rowIndex={index} dispatch={props.dispatch} />)
+                board.map((row, index) => <Row key={index} row={row} rowIndex={index} dispatch={dispatch} />)
             }
         </View>
     )
